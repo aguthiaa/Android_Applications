@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "168893024005",
+    "firebase_url": "https://ecommerce-8cebb.firebaseio.com",
+    "project_id": "ecommerce-8cebb",
+    "storage_bucket": "ecommerce-8cebb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168893024005:android:9074780921f95b9859596c",
+        "android_client_info": {
+          "package_name": "com.peter.ecommerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "168893024005-p61dhv523hp63scjmru97u0u88lk2nvr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.peter.ecommerce",
+            "certificate_hash": "4f2ee897fe3255dfa506c05d3177ecaad376efe1"
+          }
+        },
+        {
+          "client_id": "168893024005-546t4b1iu5d9dqcnhn1dsicjepdkmq5j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDv10RDYHmtTZr9Lq9wIxGCqXyH6wn7AqU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "168893024005-546t4b1iu5d9dqcnhn1dsicjepdkmq5j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

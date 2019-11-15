@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorProfile"
+    tools:context=".PersonProfileActivity">
+
+
+    <include
+        android:id="@+id/person_profile_toolbar"
+        layout="@layout/app_bar_layout"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/person_profile_toolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/person_profile_image"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_marginTop="15dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/profile"/>
+            <TextView
+                android:id="@+id/person_profile_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Profile name"
+                android:textColor="@android:color/background_light"
+                android:layout_below="@id/person_profile_image"
+                android:textAlignment="center"
+                android:layout_marginTop="@dimen/margin_top"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/person_profile_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Username name"
+                android:textColor="@android:color/background_light"
+                android:layout_below="@id/person_profile_name"
+                android:textAlignment="center"
+                android:layout_marginTop="@dimen/inputs_margin_top"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/person_profile_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hey There I am using Social Networking App (SNA) developed by Peter Mwangi."
+                android:textColor="@android:color/darker_gray"
+                android:layout_below="@id/person_profile_user_name"
+                android:textAlignment="center"
+                android:layout_marginTop="@dimen/inputs_margin_top"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/person_profile_country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Country"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@id/person_profile_status"
+                android:textAlignment="center"
+                android:layout_marginTop="50dp"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/person_profile_date_of_birth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Date of birth"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@id/person_profile_country"
+                android:textAlignment="center"
+                android:layout_marginTop="@dimen/inputs_margin_top"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/person_profile_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gender"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@id/person_profile_date_of_birth"
+                android:textAlignment="center"
+                android:layout_marginTop="@dimen/inputs_margin_top"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/person_profile_relationship_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Relationship_status"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@id/person_profile_gender"
+                android:textAlignment="center"
+                android:layout_marginTop="@dimen/inputs_margin_top"
+                android:textSize="18sp"/>
+
+            <Button
+                android:id="@+id/person_profile_send_friend_request"
+                android:layout_width="230dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@android:color/background_light"
+                android:text="Send Friend Request"
+                android:textAllCaps="false"
+                android:layout_below="@id/person_profile_relationship_status"
+                android:layout_marginTop="45dp"
+                android:layout_centerHorizontal="true"
+                android:textSize="16sp"/>
+            <Button
+                android:id="@+id/person_profile_decline_friend_request"
+                android:layout_width="230dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:textColor="@android:color/background_light"
+                android:text="Decline Friend Request"
+                android:textAllCaps="false"
+                android:layout_below="@id/person_profile_send_friend_request"
+                android:layout_marginTop="@dimen/inputs_margin_top"
+                android:layout_centerHorizontal="true"
+                android:textSize="16sp"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

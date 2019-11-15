@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login"
+    tools:context=".PostActivity">
+
+    <include
+        android:id="@+id/add_new_post_toolbar"
+        layout="@layout/app_bar_layout"/>
+
+
+    <ImageButton
+        android:id="@+id/postImageView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:srcCompat="@drawable/select_image"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/add_new_post_toolbar"/>
+
+    <EditText
+        android:id="@+id/postImageCaption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:hint="@string/add_a_caption"
+        android:layout_below="@id/postImageView"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/inputs"
+        android:padding="15dp"/>
+
+    <Button
+        android:id="@+id/updatePostButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/update_post"
+        android:layout_below="@id/postImageCaption"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/inputs_margin_top"
+        android:background="@drawable/button"
+        android:padding="@dimen/inputs_padding"/>
+
+</RelativeLayout>

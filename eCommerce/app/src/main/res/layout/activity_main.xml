@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/welcome"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/welcome_page_app_logo"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="@dimen/logo_margin_top"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/applogo"/>
+
+    <TextView
+        android:id="@+id/welcome_page_app_text"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/find_discover_choose_and_buy_anything_online"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold|italic"
+        android:textSize="@dimen/text_size22"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="88dp"
+        android:textAlignment="center"/>
+
+    <Button
+        android:id="@+id/welcome_page_login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="@dimen/margin_10dp"
+        android:background="@drawable/buttons"
+        android:padding="@dimen/padding_20dp"
+        android:textSize="@dimen/text_size_18sp"
+        android:textAllCaps="false"
+        android:text="@string/already_have_an_account_login"
+        android:textColor="@android:color/background_light"/>
+    <Button
+        android:id="@+id/welcome_page_register_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:layout_above="@id/welcome_page_login_button"
+        android:background="@drawable/inputs_design"
+        android:padding="@dimen/padding_20dp"
+        android:textSize="@dimen/text_size_18sp"
+        android:textAllCaps="false"
+        android:text="Join Now"
+        android:textColor="@android:color/background_light"/>
+
+
+</RelativeLayout>

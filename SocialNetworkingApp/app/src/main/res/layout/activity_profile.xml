@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorProfile"
+    tools:context=".ProfileActivity">
+
+    <include
+        android:id="@+id/profile_toolbar"
+        layout="@layout/app_bar_layout"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/profile_toolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_profile_image"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_marginTop="15dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/profile"/>
+            <TextView
+                android:id="@+id/profile_name_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Profile name"
+                android:textColor="@android:color/background_light"
+                android:layout_below="@id/profile_profile_image"
+                android:textAlignment="center"
+                android:layout_marginTop="@dimen/margin_top"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/profile_user_name_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Username name"
+                android:textColor="@android:color/background_light"
+                android:layout_below="@id/profile_name_textView"
+                android:textAlignment="center"
+                android:layout_marginTop="@dimen/inputs_margin_top"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/profile_status_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hey There I am using Social Networking App (SNA) developed by Peter Mwangi."
+                android:textColor="@android:color/darker_gray"
+                android:layout_below="@id/profile_user_name_textView"
+                android:textAlignment="center"
+                android:layout_marginTop="@dimen/inputs_margin_top"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/profile_country_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Country"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@id/profile_status_textView"
+                android:textAlignment="center"
+                android:layout_marginTop="50dp"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/profile_date_of_birth_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Date of birth"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@id/profile_country_textView"
+                android:textAlignment="center"
+                android:layout_marginTop="@dimen/inputs_margin_top"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/profile_gender_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gender"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@id/profile_date_of_birth_textView"
+                android:textAlignment="center"
+                android:layout_marginTop="@dimen/inputs_margin_top"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/profile_relationship_status_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Relationship_status"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@id/profile_gender_textView"
+                android:textAlignment="center"
+                android:layout_marginTop="@dimen/inputs_margin_top"
+                android:textSize="18sp"/>
+
+            <Button
+                android:id="@+id/profile_posts_button"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="No of Posts"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
+                android:textAllCaps="false"
+                android:layout_below="@id/profile_relationship_status_textView"
+                android:textSize="14sp"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@android:color/background_light"
+                android:textStyle="bold"/>
+            <Button
+                android:id="@+id/profile_number_of_friends_button"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="No of Friends"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="@dimen/inputs_margin_top"
+                android:layout_marginTop="40dp"
+                android:textAllCaps="false"
+                android:layout_below="@id/profile_relationship_status_textView"
+                android:textSize="14sp"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@android:color/background_light"
+                android:textStyle="bold"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

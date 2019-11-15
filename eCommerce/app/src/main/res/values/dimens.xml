@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="logo_margin_top">60dp</dimen>
+    <dimen name="text_size22">22sp</dimen>
+    <dimen name="margin_10dp">12dp</dimen>
+    <dimen name="padding_20dp">20dp</dimen>
+    <dimen name="text_size_18sp">18sp</dimen>
+    <dimen name="margin_top_5dp">5dp</dimen>
+</resources>

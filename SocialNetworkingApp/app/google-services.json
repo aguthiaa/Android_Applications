@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "17615137697",
+    "firebase_url": "https://socialnetworkingapp-3c829.firebaseio.com",
+    "project_id": "socialnetworkingapp-3c829",
+    "storage_bucket": "socialnetworkingapp-3c829.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17615137697:android:e8449aef4b5137427279e0",
+        "android_client_info": {
+          "package_name": "com.peter.socialnetworkingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "17615137697-2k5ii8ea5c8fuftbgnghn4jalpmmaerk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.peter.socialnetworkingapp",
+            "certificate_hash": "4f2ee897fe3255dfa506c05d3177ecaad376efe1"
+          }
+        },
+        {
+          "client_id": "17615137697-kp4rikjv2ti935bl3rnu13rcc5bq335v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJfhWBehjA6jR2I8QzUCUY-Q76WYzucXI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "17615137697-kp4rikjv2ti935bl3rnu13rcc5bq335v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

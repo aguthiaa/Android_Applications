@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="layout_margin_bottom">3dp</dimen>
+    <dimen name="text_size">16sp</dimen>
+    <dimen name="margin_start">135dp</dimen>
+    <dimen name="margin_top">10dp</dimen>
+    <dimen name="coner_radius">30dp</dimen>
+    <dimen name="image_dimensions">150dp</dimen>
+    <dimen name="inputs_padding">10dp</dimen>
+    <dimen name="inputs_margin_top">5dp</dimen>
+    <dimen name="btn_text_size">22sp</dimen>
+    <dimen name="button_padding">15dp</dimen>
+    <dimen name="register_textView_size">18sp</dimen>
+    <dimen name="inputs_side_margins">7dp</dimen>
+</resources>
