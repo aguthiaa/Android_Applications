@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/register"
+    tools:context=".RegisterActivity">
+
+    <ImageView
+        android:id="@+id/register_page_app_logo"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/applogo"
+        android:layout_marginTop="130dp"/>
+
+    <EditText
+        android:id="@+id/register_full_name_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:layout_below="@id/register_page_app_logo"
+        android:background="@drawable/inputs_design"
+        android:padding="@dimen/padding_20dp"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:hint="Full Name"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHint="@android:color/background_light"
+        android:textSize="@dimen/text_size_18sp"
+        android:textStyle="bold"/>
+    <EditText
+        android:id="@+id/register_phone_number_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:layout_below="@id/register_full_name_input"
+        android:background="@drawable/inputs_design"
+        android:padding="@dimen/padding_20dp"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:layout_marginTop="@dimen/margin_top_5dp"
+        android:hint="Phone Number"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHint="@android:color/background_light"
+        android:textSize="@dimen/text_size_18sp"
+        android:textStyle="bold"/>
+    <EditText
+        android:id="@+id/register_password_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:layout_below="@id/register_phone_number_input"
+        android:background="@drawable/inputs_design"
+        android:padding="@dimen/padding_20dp"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:layout_marginTop="@dimen/margin_top_5dp"
+        android:hint="Password"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHint="@android:color/background_light"
+        android:textSize="@dimen/text_size_18sp"
+        android:textStyle="bold"/>
+    <EditText
+        android:id="@+id/register_confirm__password_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:layout_below="@id/register_password_input"
+        android:background="@drawable/inputs_design"
+        android:padding="@dimen/padding_20dp"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:layout_marginTop="@dimen/margin_top_5dp"
+        android:hint="Confirm-Password"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHint="@android:color/background_light"
+        android:textSize="@dimen/text_size_18sp"
+        android:textStyle="bold"/>
+    <Button
+        android:id="@+id/register_page_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_10dp"
+        android:layout_below="@id/register_confirm__password_input"
+        android:background="@drawable/buttons"
+        android:padding="@dimen/padding_20dp"
+        android:textSize="@dimen/text_size_18sp"
+        android:textAllCaps="false"
+        android:text="Create Account"
+        android:textColor="@android:color/background_light"/>
+
+</RelativeLayout>

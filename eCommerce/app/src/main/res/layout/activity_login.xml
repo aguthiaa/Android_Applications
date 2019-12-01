@@ -14,7 +14,7 @@
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/applogo"
-        android:layout_marginTop="200dp"/>
+        android:layout_marginTop="180dp"/>
 
     <EditText
         android:id="@+id/login_phone_number_input"
@@ -88,7 +88,29 @@
         android:padding="@dimen/padding_20dp"
         android:textSize="@dimen/text_size_18sp"
         android:textAllCaps="false"
-        android:text="@string/already_have_an_account_login"
+        android:text="@string/login"
         android:textColor="@android:color/background_light"/>
+
+    <TextView
+        android:id="@+id/admin_panel_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I'm an admin"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/login_page_button"
+       android:layout_marginEnd="@dimen/margin_10dp"/>
+    <TextView
+        android:id="@+id/not_admin_panel_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I'm not an admin"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/login_page_button"
+        android:layout_marginEnd="@dimen/margin_10dp"
+        android:visibility="invisible"/>
 
 </RelativeLayout>

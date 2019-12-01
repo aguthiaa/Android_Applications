@@ -2,4 +2,5 @@
     <string name="app_name">eCommerce</string>
     <string name="find_discover_choose_and_buy_anything_online">Find, Discover, Choose and Buy anything Online</string>
     <string name="already_have_an_account_login">Already have an Account? Login</string>
+    <string name="login">Login</string>
 </resources>
