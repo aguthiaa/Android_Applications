@@ -19,6 +19,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.peter.ecommerce.Model.Users;
+import com.peter.ecommerce.Prevalent.Prevalent;
+
+import io.paperdb.Paper;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -37,6 +40,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         initViews();
+
+        Paper.init(this);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +109,12 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void loginUser(final String number, final String passcode) {
+
+        if (rememberME.isChecked())
+        {
+            Paper.book().write(Prevalent.userPhoneKey,number);
+            Paper.book().write(Prevalent.userPasswordKey,passcode);
+        }
 
         final DatabaseReference rootRef;
         rootRef= FirebaseDatabase.getInstance().getReference();
