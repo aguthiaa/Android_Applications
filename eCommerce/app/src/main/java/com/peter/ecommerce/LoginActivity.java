@@ -21,6 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.peter.ecommerce.Model.Users;
 import com.peter.ecommerce.Prevalent.Prevalent;
 
+import java.util.Objects;
+
 import io.paperdb.Paper;
 
 public class LoginActivity extends AppCompatActivity {
@@ -130,13 +132,23 @@ public class LoginActivity extends AppCompatActivity {
 
                     Users usersData=dataSnapshot.child(parentDbName).child(number).getValue(Users.class);
 
-                    if (usersData.getPhoneNumber().equals(number))
+                    if (Objects.requireNonNull(usersData).getPhoneNumber().equals(number))
                     {
                         if (usersData.getPassword().equals(passcode))
                         {
-                            mDialog.dismiss();
-                            Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                            sendUserToHomeActivity();
+                            if (parentDbName.equals("Admins"))
+                            {
+                                mDialog.dismiss();
+                                Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                                sendUserToAdminAddNewProductActivity();
+                            }
+
+                            else if (parentDbName.equals("Users"))
+                            {
+                                mDialog.dismiss();
+                                Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                                sendUserToHomeActivity();
+                            }
                         }
                         else
                         {
@@ -159,6 +171,11 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void sendUserToAdminAddNewProductActivity() {
+        Intent intent = new Intent(LoginActivity.this, AdminAddNewProductActivity.class);
+        startActivity(intent);
     }
 
     private void sendUserToHomeActivity() {
