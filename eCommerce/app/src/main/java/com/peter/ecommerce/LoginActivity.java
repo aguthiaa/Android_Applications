@@ -140,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
                             {
                                 mDialog.dismiss();
                                 Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                                sendUserToAdminAddNewProductActivity();
+                                sendUserToAdminCategoryActivity();
                             }
 
                             else if (parentDbName.equals("Users"))
@@ -173,8 +173,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void sendUserToAdminAddNewProductActivity() {
-        Intent intent = new Intent(LoginActivity.this, AdminAddNewProductActivity.class);
+    private void sendUserToAdminCategoryActivity() {
+        Intent intent = new Intent(LoginActivity.this, AdminCategoryActivity.class);
         startActivity(intent);
     }
 
