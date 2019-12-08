@@ -111,9 +111,9 @@ public class SetupActivity extends AppCompatActivity {
 
                 if (dataSnapshot.exists()){
 
-                    if (dataSnapshot.hasChild("ProfileImage")){
+                    if (dataSnapshot.hasChild("profileImage")){
 
-                        String image = Objects.requireNonNull(dataSnapshot.child("ProfileImage").getValue()).toString();
+                        String image = Objects.requireNonNull(dataSnapshot.child("profileImage").getValue()).toString();
 
                         //To display the image we need a piccasso library
                         Picasso.get().load(image).placeholder(R.drawable.profile).into(profileImage);

@@ -138,69 +138,137 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
 
     private void storeProductInformation() {
 
-        Calendar calendar = Calendar.getInstance();
+//        Calendar calendar = Calendar.getInstance();
+//
+//        SimpleDateFormat currentDate=new SimpleDateFormat("dd-MMMM-yyyy");
+//        saveCurrentDate = currentDate.format(calendar.getTime());
+//
+//        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
+//        saveCurrentTime = currentTime.format(calendar.getTime());
+//
+//        productRandomKey = saveCurrentDate + saveCurrentTime;
+//
+//        final StorageReference filePath = productImageRef.child(imageUri.getLastPathSegment() + productRandomKey +".jpg");
+//
+//        final UploadTask uploadTask = filePath.putFile(imageUri);
+//
+//        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                Toast.makeText(AdminAddNewProductActivity.this, "Product Image Uploaded Successfully", Toast.LENGTH_SHORT).show();
+//
+//
+//
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                mDialog.dismiss();
+//                String error = e.getMessage();
+//                Toast.makeText(AdminAddNewProductActivity.this, error, Toast.LENGTH_LONG).show();
+//            }
+//        });
+//
+//
+//        final Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+//            @Override
+//            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+//
+//                if (!task.isSuccessful())
+//                {
+//                    throw task.getException();
+//                }
+//
+//                downloadImageUrl = filePath.getDownloadUrl().toString();
+////                downloadImageUrl = task.getResult().toString();
+//                return filePath.getDownloadUrl();
+//            }
+//        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Uri> task) {
+//
+//                if (task.isSuccessful())
+//                {
+//                    mDialog.dismiss();
+//                    downloadImageUrl = task.getResult().toString();
+//                    Toast.makeText(AdminAddNewProductActivity.this, "Product Image Url Created successfully", Toast.LENGTH_SHORT).show();
+//                    saveProductInfoToDatabase();
+//                }
+//
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                mDialog.dismiss();
+//                String error = e.getMessage();
+//                Toast.makeText(AdminAddNewProductActivity.this, error, Toast.LENGTH_LONG).show();
+//            }
+//        });
 
-        SimpleDateFormat currentDate=new SimpleDateFormat("MMM dd, yyyy");
-        saveCurrentDate = currentDate.format(calendar.getTime());
 
-        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
-        saveCurrentTime = currentTime.format(calendar.getTime());
+        Calendar calForDate = Calendar.getInstance();
+        SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
+        saveCurrentDate = currentDate.format(calForDate.getTime());
+
+        Calendar calForTime = Calendar.getInstance();
+        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm");
+        saveCurrentTime = currentTime.format(calForTime.getTime());
 
         productRandomKey = saveCurrentDate + saveCurrentTime;
 
-        final StorageReference filePath = productImageRef.child(imageUri.getLastPathSegment() + productRandomKey +".jpg");
 
-        final UploadTask uploadTask = filePath.putFile(imageUri);
+        final StorageReference filePath = productImageRef.child(imageUri.getLastPathSegment() + productRandomKey + ".jpg");
+        UploadTask uploadTask = filePath.putFile(imageUri);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
 
-        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+                String error = e.getMessage();
+
+                Toast.makeText(AdminAddNewProductActivity.this, error, Toast.LENGTH_LONG).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(AdminAddNewProductActivity.this, "Product Image Uploaded Successfully", Toast.LENGTH_SHORT).show();
 
+                mDialog.dismiss();
+                Toast.makeText(AdminAddNewProductActivity.this, "Product successfully uploaded to firebase storage", Toast.LENGTH_SHORT).show();
+            }
+        });
 
+        Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
 
+                    throw task.getException();
+                }
 
-                final Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                    @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                downloadImageUrl = filePath.getDownloadUrl().toString();
+                return filePath.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
 
-                        if (!task.isSuccessful())
-                        {
-                            throw task.getException();
-                        }
+                if (task.isSuccessful()) {
 
-                        downloadImageUrl = filePath.getDownloadUrl().toString();
-                        downloadImageUrl = task.getResult().toString();
-                        return filePath.getDownloadUrl();
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-
-                        if (task.isSuccessful())
-                        {
-                            mDialog.dismiss();
-                            downloadImageUrl = task.getResult().toString();
-                            Toast.makeText(AdminAddNewProductActivity.this, "Product Image Url Created successfully", Toast.LENGTH_SHORT).show();
-                            saveProductInfoToDatabase();
-                        }
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        mDialog.dismiss();
-                        String error = e.getMessage();
-                        Toast.makeText(AdminAddNewProductActivity.this, error, Toast.LENGTH_LONG).show();
-                    }
-                });
-
+                    mDialog.dismiss();
+                    Toast.makeText(AdminAddNewProductActivity.this, "Product image successfully saved to firebase database", Toast.LENGTH_SHORT).show();
+                    downloadImageUrl = task.getResult().toString();
+                    saveProductInfoToDatabase();
+                } else {
+                    mDialog.dismiss();
+                    Toast.makeText(AdminAddNewProductActivity.this, "An Error occurred", Toast.LENGTH_SHORT).show();
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 mDialog.dismiss();
                 String error = e.getMessage();
+
                 Toast.makeText(AdminAddNewProductActivity.this, error, Toast.LENGTH_LONG).show();
             }
         });
