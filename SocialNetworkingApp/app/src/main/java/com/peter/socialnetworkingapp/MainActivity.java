@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
        navProfileImage=(CircleImageView) navView.findViewById(R.id.nav_profile_image);
         navProfileUsername=(TextView) navView.findViewById(R.id.nav_user_fullname);
 
-        //adding on itemselected listener to the nevigation menu
+        //adding on itemselected listener to the navigation menu
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SellerRegisterActivity">
+
+    <ImageView
+        android:id="@+id/seller_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/seller"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/seller_register_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Seller Registration"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:textColor="@android:color/holo_green_dark"
+        android:layout_below="@id/seller_image"/>
+
+    <EditText
+        android:id="@+id/seller_full_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/seller_register_text"
+        android:hint="Seller Name..."
+        android:inputType="text"/>
+    <EditText
+        android:id="@+id/seller_phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/seller_full_name"
+        android:hint="Phone Number..."
+        android:inputType="number"/>
+    <EditText
+        android:id="@+id/seller_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/seller_phone_number"
+        android:hint="Email..."
+        android:inputType="textEmailAddress"/>
+    <EditText
+        android:id="@+id/seller_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/seller_email"
+        android:hint="Password..."
+        android:inputType="textPassword"/>
+
+    <EditText
+        android:id="@+id/seller_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/seller_password"
+        android:hint="Address..."
+        android:inputType="textMultiLine"/>
+
+    <Button
+        android:id="@+id/seller_register_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/seller_address"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:text="Register"
+        android:textAllCaps="false"
+        android:background="@android:color/holo_green_dark"
+        android:textColor="@android:color/background_light"/>
+    <Button
+        android:id="@+id/seller_already_have_an_account_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/seller_register_btn"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:text="Already have an Account? Login"
+        android:textAllCaps="false"
+        android:background="@android:color/white"
+        android:textColor="@android:color/holo_green_dark"/>
+
+
+</RelativeLayout>

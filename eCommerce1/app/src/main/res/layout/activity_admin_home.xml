@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminHomeActivity">
+
+    <RelativeLayout
+        android:id="@+id/parent_layout_6"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimaryDark">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Welcome Admin"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textColor="@android:color/background_light"/>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/admin_category_manage_products"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/parent_layout_6"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        android:text="Manage Products"
+        android:textStyle="bold"
+        android:background="@drawable/buttons"
+        android:textColor="@android:color/background_light"
+        android:padding="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="5dp"/>
+    <Button
+        android:id="@+id/admin_category_check_new_orders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/admin_category_manage_products"
+        android:layout_marginTop="15dp"
+        android:textSize="18sp"
+        android:text="Check New Orders"
+        android:textStyle="bold"
+        android:background="@drawable/buttons"
+        android:textColor="@android:color/background_light"
+        android:padding="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="5dp"/>
+    <Button
+        android:id="@+id/admin_category_check_new_products"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/admin_category_check_new_orders"
+        android:layout_marginTop="15dp"
+        android:textSize="18sp"
+        android:text="Check And Approve New Products"
+        android:textStyle="bold"
+        android:background="@drawable/buttons"
+        android:textColor="@android:color/background_light"
+        android:padding="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="5dp"/>
+
+    <Button
+        android:id="@+id/admin_category_logout_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:textSize="18sp"
+        android:text="Logout Admin"
+        android:textStyle="bold"
+        android:background="@drawable/inputs"
+        android:textColor="@color/colorPrimaryDark"
+        android:padding="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"/>
+
+</RelativeLayout>
