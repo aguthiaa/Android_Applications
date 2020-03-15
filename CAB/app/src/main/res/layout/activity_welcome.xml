@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/welcome"
+    tools:context=".WelcomeActivity">
+
+    <Button
+        android:id="@+id/im_a_driver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="I'm a Driver"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:padding="20dp"
+        android:layout_marginTop="300dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@android:color/background_light"
+        android:textColor="#EF29AB"/>
+    <Button
+        android:id="@+id/im_a_customer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="I'm a Customer"
+        android:layout_below="@id/im_a_driver"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:padding="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="#EF29AB"
+        android:textColor="@android:color/background_light"/>
+
+</RelativeLayout>
