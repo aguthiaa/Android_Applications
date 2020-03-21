@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -149,7 +150,10 @@ public class CustomerLoginRegisterActivity extends AppCompatActivity
                         if (task.isSuccessful())
                         {
                             Toast.makeText(CustomerLoginRegisterActivity.this, "Customer Login successful", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(CustomerLoginRegisterActivity.this, CustomersMapActivity.class);
+                            startActivity(intent);
                             mDialog.dismiss();
+
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener()

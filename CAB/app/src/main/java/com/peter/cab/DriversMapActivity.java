@@ -4,8 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
@@ -21,6 +24,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -35,16 +39,52 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
     private Location lastLocation;
     private LocationRequest locationRequest;
 
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentOnlineUser;
+    private Boolean driverLogoutStatus = false;
+
+    private String userID;
+
+    private Button driverSettings, driverLogout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drivers_map);
+
+        mAuth = FirebaseAuth.getInstance();
+        currentOnlineUser = mAuth.getCurrentUser();
+
+        userID = mAuth.getCurrentUser().getUid();
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        driverSettings = findViewById(R.id.driver_settings_btn);
+        driverLogout = findViewById(R.id.driver_logout_btn);
+
+        driverLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                driverLogoutStatus = true;
+
+                deauthenticateDriverAvailability();
+
+                mAuth.signOut();
+
+                logoutDriver();
+
+            }
+        });
     }
+
+
+
+
 
 
     /**
@@ -97,7 +137,6 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
 
-        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference driversAvailabilityRef = FirebaseDatabase.getInstance().getReference().child("Drivers Available");
 
         GeoFire geoFire = new GeoFire(driversAvailabilityRef);
@@ -126,17 +165,35 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
     protected void onStop() {
         super.onStop();
 
-        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference driversAvailabilityRef = FirebaseDatabase.getInstance().getReference().child("Drivers Available");
+        if (!driverLogoutStatus)
+        {
+            deauthenticateDriverAvailability();
+        }
 
-        GeoFire geoFire = new GeoFire(driversAvailabilityRef);
 
-        geoFire.removeLocation(userID, new GeoFire.CompletionListener() {
-            @Override
-            public void onComplete(String key, DatabaseError error)
-            {
+    }
 
-            }
-        });
+    private void deauthenticateDriverAvailability()
+    {
+            DatabaseReference driversAvailabilityRef = FirebaseDatabase.getInstance().getReference().child("Drivers Available");
+
+            GeoFire geoFire = new GeoFire(driversAvailabilityRef);
+
+            geoFire.removeLocation(userID, new GeoFire.CompletionListener() {
+                @Override
+                public void onComplete(String key, DatabaseError error)
+                {
+
+                }
+            });
+    }
+
+
+    private void logoutDriver()
+    {
+        Intent intent = new Intent(DriversMapActivity.this, WelcomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }
