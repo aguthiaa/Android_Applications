@@ -17,6 +17,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
 
 public class CustomerLoginRegisterActivity extends AppCompatActivity
 {
@@ -27,6 +33,9 @@ public class CustomerLoginRegisterActivity extends AppCompatActivity
     private ProgressDialog mDialog;
 
     private FirebaseAuth mAuth;
+    private DatabaseReference customersRef;
+
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,6 +46,7 @@ public class CustomerLoginRegisterActivity extends AppCompatActivity
         initViews();
 
         mAuth = FirebaseAuth.getInstance();
+
     }
 
     private void initViews()
@@ -203,7 +213,7 @@ public class CustomerLoginRegisterActivity extends AppCompatActivity
 
 
 
-    private void registerNewCustomer(String email, String password)
+    private void registerNewCustomer(final String email, String password)
     {
         mAuth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>()
@@ -213,7 +223,11 @@ public class CustomerLoginRegisterActivity extends AppCompatActivity
                     {
                         if (task.isSuccessful())
                         {
-                            Toast.makeText(CustomerLoginRegisterActivity.this, "New Customer Registered successfully", Toast.LENGTH_LONG).show();
+                            userID = mAuth.getCurrentUser().getUid();
+                            customersRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(userID);
+
+                            customersRef.setValue(true);
+                            Toast.makeText(CustomerLoginRegisterActivity.this, "Customer Registered Successfully", Toast.LENGTH_LONG).show();
                             mDialog.dismiss();
                         }
                     }

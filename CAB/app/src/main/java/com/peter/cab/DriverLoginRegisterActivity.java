@@ -17,6 +17,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class DriverLoginRegisterActivity extends AppCompatActivity
 {
@@ -25,6 +27,9 @@ public class DriverLoginRegisterActivity extends AppCompatActivity
     private Button loginDriver, registerDriver;
     private ProgressDialog mDialog;
     private FirebaseAuth mAuth;
+    private DatabaseReference driversRef;
+
+    private String onlineDriver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,6 +40,7 @@ public class DriverLoginRegisterActivity extends AppCompatActivity
         initViews();
 
         mAuth = FirebaseAuth.getInstance();
+
     }
 
     private void initViews()
@@ -213,6 +219,10 @@ public class DriverLoginRegisterActivity extends AppCompatActivity
             {
                 if (task.isSuccessful())
                 {
+                    onlineDriver = mAuth.getCurrentUser().getUid();
+                    driversRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(onlineDriver);
+
+                    driversRef.setValue(true);
                     Toast.makeText(DriverLoginRegisterActivity.this, "New Driver Registered successfully", Toast.LENGTH_LONG).show();
                     mDialog.dismiss();
                 }
