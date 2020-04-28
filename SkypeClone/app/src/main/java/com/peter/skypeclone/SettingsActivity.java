@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
@@ -57,6 +58,8 @@ public class SettingsActivity extends AppCompatActivity
         currentOnlineUser = mAuth.getCurrentUser().getUid();
         usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentOnlineUser);
         profilePictureRef = FirebaseStorage.getInstance().getReference().child("Profile Images");
+
+        retrieveUserInfo();
     }
 
 
@@ -109,6 +112,11 @@ public class SettingsActivity extends AppCompatActivity
 
     private void verifyInputFields()
     {
+        mDialog.setTitle("Updating Profile Information");
+        mDialog.setMessage("Please wait...");
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.show();
+
         final String userName = name.getText().toString().trim();
         final String status = userStatus.getText().toString().trim();
 
@@ -123,12 +131,16 @@ public class SettingsActivity extends AppCompatActivity
                 }
                 else
                 {
+                    mDialog.dismiss();
+
                     userStatus.setError("Say Something!");
                     userStatus.requestFocus();
                 }
             }
             else
             {
+                mDialog.dismiss();
+
                 name.setError("Username is required!");
                 name.requestFocus();
             }
@@ -145,6 +157,7 @@ public class SettingsActivity extends AppCompatActivity
                     }
                     else
                     {
+                        mDialog.dismiss();
                         Toast.makeText(SettingsActivity.this, "Select a profile image", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -171,6 +184,8 @@ public class SettingsActivity extends AppCompatActivity
             {
                 if (task.isSuccessful())
                 {
+                    mDialog.dismiss();
+
                     Toast.makeText(SettingsActivity.this, "Profile Information Updated successfully", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(SettingsActivity.this, ContactsActivity.class);
@@ -178,6 +193,8 @@ public class SettingsActivity extends AppCompatActivity
                 }
                 else
                 {
+                    mDialog.dismiss();
+
                     Toast.makeText(SettingsActivity.this, "An Error occurred", Toast.LENGTH_SHORT).show();
                 }
 
@@ -186,6 +203,8 @@ public class SettingsActivity extends AppCompatActivity
             @Override
             public void onFailure(@NonNull Exception e)
             {
+                mDialog.dismiss();
+
                 String error = e.getMessage();
                 Toast.makeText(SettingsActivity.this, error, Toast.LENGTH_LONG).show();
 
@@ -232,6 +251,7 @@ public class SettingsActivity extends AppCompatActivity
                             String error = e.getMessage();
 
                             Toast.makeText(SettingsActivity.this, error, Toast.LENGTH_LONG).show();
+                            mDialog.dismiss();
 
                         }
                     }).addOnCompleteListener(new OnCompleteListener<Void>()
@@ -241,6 +261,8 @@ public class SettingsActivity extends AppCompatActivity
                         {
                             if (task.isSuccessful())
                             {
+                                mDialog.dismiss();
+
                                 Toast.makeText(SettingsActivity.this, "Profile Information Updated Successfully", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(SettingsActivity.this, ContactsActivity.class);
                                 startActivity(intent);
@@ -254,6 +276,7 @@ public class SettingsActivity extends AppCompatActivity
                 else
                 {
                     Toast.makeText(SettingsActivity.this, "An Error occurred!", Toast.LENGTH_SHORT).show();
+                    mDialog.dismiss();
                 }
 
             }
@@ -265,8 +288,38 @@ public class SettingsActivity extends AppCompatActivity
 
                 Toast.makeText(SettingsActivity.this, error, Toast.LENGTH_LONG).show();
 
+                mDialog.dismiss();
+
             }
         });
 
+    }
+
+    protected void retrieveUserInfo()
+    {
+
+        usersRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+                if (dataSnapshot.exists())
+                {
+                    String uName = dataSnapshot.child("userName").getValue().toString();
+                    name.setText(uName);
+                    String uStatus = dataSnapshot.child("status").getValue().toString();
+                    userStatus.setText(uStatus);
+
+                    String profilePic = dataSnapshot.child("profileImage").getValue().toString();
+
+                    Picasso.get().load(profilePic).placeholder(R.drawable.profile_image).into(profileImage);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }
