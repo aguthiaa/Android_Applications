@@ -8,12 +8,34 @@
     android:background="@drawable/back"
     tools:context=".SettingsActivity">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/settings_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/settings_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:textColor="@android:color/background_light"/>
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <ImageView
         android:id="@+id/settings_profile_image"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_below="@id/settings_appbar"
+        android:layout_marginTop="5dp"
         android:src="@drawable/profile_image"/>
 
     <EditText
@@ -27,6 +49,7 @@
         android:backgroundTint="@android:color/background_light"
         android:drawableLeft="@drawable/edit_profile"
         android:drawableTint="@android:color/background_light"
+        android:inputType="text"
         android:hint="Username..."
         android:textColor="@android:color/background_light"
         android:textColorHint="@android:color/background_light"/>
@@ -38,6 +61,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:inputType="text"
         android:backgroundTint="@android:color/background_light"
         android:drawableLeft="@drawable/edit_status"
         android:drawableTint="@android:color/background_light"
@@ -51,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="15dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_below="@id/settings_status"
         android:padding="18sp"
         android:text="Apply Changes"

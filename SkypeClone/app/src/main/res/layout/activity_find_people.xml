@@ -7,4 +7,36 @@
     android:layout_height="match_parent"
     tools:context=".FindPeopleActivity">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/search_app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/search_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <EditText
+                android:id="@+id/find_friends_search_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Find Friends"
+                android:drawableLeft="@drawable/search"
+                android:drawableTint="@android:color/background_light"
+                android:backgroundTint="@android:color/background_light"
+                android:textColorHint="@android:color/background_light"
+                android:layout_marginRight="15dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/background_light"/>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/find_friends_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/search_app_bar_layout"/>
+
 </RelativeLayout>
