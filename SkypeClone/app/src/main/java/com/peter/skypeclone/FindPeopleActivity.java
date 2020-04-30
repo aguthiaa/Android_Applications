@@ -60,6 +60,7 @@ public class FindPeopleActivity extends AppCompatActivity {
                 if (!searchTextInput.isEmpty())
                 {
                     str = charSequence.toString();
+                    onStart();
                 }
                 else
                 {
@@ -112,7 +113,8 @@ public class FindPeopleActivity extends AppCompatActivity {
         {
             options = new FirebaseRecyclerOptions.Builder<FindFriends>()
                     .setQuery(usersRef.orderByChild("userName")
-                            .startAt(str + "\uf8ff")
+                            .startAt(str)
+                            .endAt(str + "\uf8ff")
                              , FindFriends.class)
                     .build();
         }
@@ -121,7 +123,7 @@ public class FindPeopleActivity extends AppCompatActivity {
                 new FirebaseRecyclerAdapter<FindFriends, FindFriendsViewHolder>(options)
         {
             @Override
-            protected void onBindViewHolder(@NonNull FindFriendsViewHolder holder, int position, @NonNull FindFriends model)
+            protected void onBindViewHolder(@NonNull FindFriendsViewHolder holder, int position, @NonNull final FindFriends model)
             {
                 holder.cUsername.setText(model.getUserName());
                 Picasso.get().load(model.getProfileImage()).placeholder(R.drawable.profile_image).into(holder.cProfileImage);
@@ -133,7 +135,9 @@ public class FindPeopleActivity extends AppCompatActivity {
                    public void onClick(View view)
                    {
                        Intent intent = new Intent(FindPeopleActivity.this, ProfileActivity.class);
-                       intent.putExtra("userID", userID);
+                       intent.putExtra("sentUserID", userID);
+                       intent.putExtra("sentUserName", model.getUserName());
+                       intent.putExtra("sentUserImage", model.getProfileImage());
                        startActivity(intent);
                    }
                });
