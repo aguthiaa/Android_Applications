@@ -36,7 +36,7 @@
 
         <Button
             android:id="@+id/accept_friend_request_btn"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Accept Friend Request"
             android:padding="10dp"
@@ -46,10 +46,12 @@
             android:textAllCaps="false"
             android:textColor="@android:color/background_light"
             android:layout_below="@id/friends_username"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
         <Button
             android:id="@+id/cancel_friend_request_btn"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cancel Friend Request"
             android:padding="10dp"
@@ -58,9 +60,10 @@
             android:backgroundTint="@color/colorAccent"
             android:textAllCaps="false"
             android:textColor="@android:color/background_light"
-            android:layout_below="@id/friends_username"
-            android:layout_toRightOf="@id/accept_friend_request_btn"
-            android:layout_marginTop="5dp"/>
+            android:layout_below="@id/accept_friend_request_btn"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

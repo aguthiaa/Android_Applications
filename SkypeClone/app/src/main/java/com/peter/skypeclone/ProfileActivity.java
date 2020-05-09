@@ -71,19 +71,84 @@ public class ProfileActivity extends AppCompatActivity
         });
 
         manageButtonClickEvents();
-        cancelFriendReqsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-
-            }
-        });
     }
 
 
 
     private void manageButtonClickEvents()
     {
+
+        friendRequestsRef.child(onlineSenderID)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        if (dataSnapshot.hasChild(receiverUserID))
+                        {
+                            String requestType = dataSnapshot.child(receiverUserID).child("request_type").getValue().toString();
+
+                            if (requestType.equals("sent"))
+                            {
+                                currentState = "request_sent";
+                                addFriendBtn.setText("Cancel Request");
+                                cancelFriendReqsBtn.setVisibility(View.GONE);
+                            }
+                            else if (requestType.equals("received"))
+                            {
+                                currentState =  "request_received";
+                                addFriendBtn.setText("Accept Friend Request");
+                                cancelFriendReqsBtn.setVisibility(View.VISIBLE);
+
+                                cancelFriendReqsBtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view)
+                                    {
+                                        cancelFriendRequest();
+                                        Toast.makeText(ProfileActivity.this, "Friend Request Cancelled", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
+                            }
+
+                        }
+                        else
+                        {
+                            contactsRef.child(onlineSenderID)
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                                        {
+                                            if (dataSnapshot.hasChild(receiverUserID))
+                                            {
+                                                currentState = "friends";
+                                                addFriendBtn.setText("Delete Contact");
+                                                cancelFriendReqsBtn.setVisibility(View.GONE);
+
+
+                                            }
+                                            else
+                                            {
+                                                currentState = "new";
+                                                cancelFriendReqsBtn.setVisibility(View.GONE);
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
         if (onlineSenderID.equals(receiverUserID))
         {
             addFriendBtn.setVisibility(View.GONE);
