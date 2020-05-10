@@ -130,6 +130,8 @@ public class ContactsActivity extends AppCompatActivity
     {
         validateUser();
 
+        checkForIncomingCall();
+
         super.onStart();
 
         FirebaseRecyclerOptions<FindFriends> options =
@@ -143,6 +145,7 @@ public class ContactsActivity extends AppCompatActivity
                     protected void onBindViewHolder(@NonNull final ContactsViewHolder holder, int position, @NonNull FindFriends model)
                     {
                         final String userID = getRef(position).getKey();
+
 
                         DatabaseReference contactTypeRef = getRef(position).child("Contact").getRef();
 
@@ -167,6 +170,19 @@ public class ContactsActivity extends AppCompatActivity
                                                 Picasso.get().load(image).placeholder(R.drawable.profile_image).into(holder.contactImage);
                                                 holder.contactName.setText(name);
 
+                                                holder.videoCallBtn.setOnClickListener(new View.OnClickListener()
+                                                {
+                                                    @Override
+                                                    public void onClick(View view)
+                                                    {
+                                                        Intent callIntent = new Intent(ContactsActivity.this, CallingActivity.class);
+                                                        callIntent.putExtra("User ID",userID);
+                                                        startActivity(callIntent);
+                                                    }
+                                                });
+
+
+
                                             }
 
                                             @Override
@@ -186,16 +202,6 @@ public class ContactsActivity extends AppCompatActivity
                             }
                         });
 
-                        holder.videoCallBtn.setOnClickListener(new View.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(View view)
-                            {
-                                Intent callIntent = new Intent(ContactsActivity.this, CallingActivity.class);
-                                callIntent.putExtra("User ID",userID);
-                                startActivity(callIntent);
-                            }
-                        });
 
                     }
 
@@ -212,7 +218,6 @@ public class ContactsActivity extends AppCompatActivity
         adapter.startListening();
         contactsList.setAdapter(adapter);
     }
-
 
 
     private void validateUser()
@@ -238,4 +243,33 @@ public class ContactsActivity extends AppCompatActivity
             }
         });
     }
+
+    private void checkForIncomingCall()
+    {
+        usersRef.child(currentUser).child("Ringing").addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+                if (dataSnapshot.hasChild("ringing"))
+                {
+                    String calledBy = dataSnapshot.child("ringing").getValue().toString();
+
+                    Intent callIntent = new Intent(ContactsActivity.this, CallingActivity.class);
+                    callIntent.putExtra("User ID", calledBy);
+                    startActivity(callIntent);
+                    finish();
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError)
+            {
+
+            }
+        });
+    }
+
 }
