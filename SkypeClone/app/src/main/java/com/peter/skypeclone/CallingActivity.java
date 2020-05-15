@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -34,6 +35,8 @@ public class CallingActivity extends AppCompatActivity
     private DatabaseReference usersRef;
     private FirebaseAuth mAuth;
 
+    private MediaPlayer mediaPlayer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -42,6 +45,8 @@ public class CallingActivity extends AppCompatActivity
         setContentView(R.layout.activity_calling);
 
         receiverUserID = getIntent().getExtras().get("User ID").toString();
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.ringing);
 
         initialiazeViews();
 
@@ -93,6 +98,7 @@ public class CallingActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
+                mediaPlayer.stop();
                 checker = "clicked";
 
                 cancelCall();
@@ -104,9 +110,31 @@ public class CallingActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                Intent acceptCallIntent = new Intent(CallingActivity.this, VideoChatActivity.class);
-                startActivity(acceptCallIntent);
-                finish();
+                mediaPlayer.stop();
+                final HashMap<String, Object> callPickUpMap = new HashMap<>();
+                callPickUpMap.put("picked", "picked");
+
+                usersRef.child(callerUserID).child("Ringing").updateChildren(callPickUpMap)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task)
+                            {
+                                if (task.isSuccessful())
+                                {
+                                    Intent toVideoCallIntent = new Intent(CallingActivity.this, VideoChatActivity.class);
+                                    startActivity(toVideoCallIntent);
+                                }
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e)
+                    {
+
+                        String error = e.getMessage();
+                        Toast.makeText(CallingActivity.this, error, Toast.LENGTH_LONG).show();
+                    }
+                });
 
 
             }
@@ -118,6 +146,7 @@ public class CallingActivity extends AppCompatActivity
     protected void onStart()
     {
         super.onStart();
+        mediaPlayer.start();
 
         usersRef.child(receiverUserID).addListenerForSingleValueEvent(new ValueEventListener()
         {
@@ -174,6 +203,12 @@ public class CallingActivity extends AppCompatActivity
                 {
 
                     acceptCallBtn.setVisibility(View.VISIBLE);
+                }
+                if (dataSnapshot.child(receiverUserID).child("Ringing").hasChild("picked"))
+                {
+                    mediaPlayer.stop();
+                    Intent intent = new Intent(CallingActivity.this, VideoChatActivity.class);
+                    startActivity(intent);
                 }
             }
 
