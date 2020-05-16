@@ -146,7 +146,7 @@ public class CallingActivity extends AppCompatActivity
     protected void onStart()
     {
         super.onStart();
-        mediaPlayer.start();
+
 
         usersRef.child(receiverUserID).addListenerForSingleValueEvent(new ValueEventListener()
         {
@@ -169,6 +169,7 @@ public class CallingActivity extends AppCompatActivity
                                         ringingMap.put("ringing", callerUserID);
 
                                         usersRef.child(receiverUserID).child("Ringing").updateChildren(ringingMap);
+                                        mediaPlayer.start();
 
 
                                     }
@@ -194,12 +195,12 @@ public class CallingActivity extends AppCompatActivity
             }
         });
 
-        usersRef.child(callerUserID).addValueEventListener(new ValueEventListener()
+        usersRef.addValueEventListener(new ValueEventListener()
         {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
-                if (dataSnapshot.hasChild("Ringing") && !dataSnapshot.hasChild("Calling"))
+                if (dataSnapshot.child(callerUserID).hasChild("Ringing") && !dataSnapshot.child(callerUserID).hasChild("Calling"))
                 {
 
                     acceptCallBtn.setVisibility(View.VISIBLE);
