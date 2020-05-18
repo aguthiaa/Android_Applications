@@ -301,7 +301,7 @@ public class CallingActivity extends AppCompatActivity
 
         //from receiver's side
 
-        usersRef.child(callerUserID).child("Ringing")
+        usersRef.child(receiverUserID).child("Ringing")
                 .addListenerForSingleValueEvent(new ValueEventListener()
                 {
                     @Override
@@ -318,7 +318,7 @@ public class CallingActivity extends AppCompatActivity
                                         {
                                             if (task.isSuccessful())
                                             {
-                                                usersRef.child(callerUserID).child("Ringing").removeValue()
+                                                usersRef.child(receiverUserID).child("Ringing").removeValue()
                                                         .addOnCompleteListener(new OnCompleteListener<Void>()
                                                         {
                                                             @Override
