@@ -88,7 +88,7 @@
                 android:id="@+id/login_register_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Don't Have An Account?\n Register Here."
+                android:text="Don't Have An Account? Register Here."
                 android:layout_below="@id/login_btn"
                 android:layout_alignParentStart="true"
                 android:layout_marginLeft="15dp"
@@ -98,6 +98,34 @@
                 android:textStyle="bold"
                 android:textColor="@color/colorPrimary"
                 android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/simple_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Or Login using your"
+                android:layout_below="@id/login_register_text"
+                android:textAlignment="center"
+                android:layout_marginLeft="20dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"/>
+            <Button
+                android:id="@+id/login_phone_option_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="Phone "
+                android:background="@drawable/buttons_design"
+                android:layout_below="@id/simple_text"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:drawableStart="@drawable/phone"
+                android:padding="4dp"
+                android:textColor="@android:color/background_light"
+                android:textAllCaps="false"
+                android:textSize="24sp"/>
 
         </RelativeLayout>
 
