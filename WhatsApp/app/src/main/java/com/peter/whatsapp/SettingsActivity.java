@@ -28,6 +28,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageActivity;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.HashMap;
 
@@ -112,8 +115,6 @@ public class SettingsActivity extends AppCompatActivity
         String username = userUsername.getText().toString().trim();
         String status = userStatus.getText().toString().trim();
 
-        if (userProfileImage != null)
-        {
             if (!username.isEmpty())
             {
                 if (!status.isEmpty())
@@ -133,12 +134,6 @@ public class SettingsActivity extends AppCompatActivity
                 userUsername.requestFocus();
                 mDialog.dismiss();
             }
-
-        }
-        else
-        {
-          //profile image check results
-        }
 
     }
 
@@ -211,8 +206,70 @@ public class SettingsActivity extends AppCompatActivity
         {
             imageUri = data.getData();
 
-            userProfileImage.setImageURI(imageUri);
+            CropImage.activity()
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setAspectRatio(1,1)
+                    .start(this);
         }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
+        {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK)
+            {
+                Uri resultUri = result.getUri();
+                userProfileImage.setImageURI(resultUri);
+
+                final StorageReference filePath = profileImageRef.child(currentUserID +".jpg");
+                filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>()
+                        {
+                            @Override
+                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task)
+                            {
+                                if (task.isSuccessful())
+                                {
+                                    Toast.makeText(SettingsActivity.this, "Profile Image Uploaded To firebase Storage", Toast.LENGTH_SHORT).show();
+
+                                     String downloadurl = filePath.getDownloadUrl().toString();
+                                    rootRef.child("Users").child(currentUserID).child("image").setValue(downloadurl)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task)
+                                                {
+                                                    if (task.isSuccessful())
+                                                    {
+                                                        Toast.makeText(SettingsActivity.this, "Profile Image saved to firebase database", Toast.LENGTH_SHORT).show();
+                                                        sendUserToMainActivity();
+                                                    }
+
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e)
+                                        {
+                                            String error = e.getMessage();
+                                            Toast.makeText(SettingsActivity.this, error, Toast.LENGTH_LONG).show();
+
+                                        }
+                                    });
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e)
+                    {
+                        String error = e.getMessage();
+                        Toast.makeText(SettingsActivity.this, error, Toast.LENGTH_LONG).show();
+
+                    }
+                });
+            }
+            else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE)
+            {
+                Exception error = result.getError();
+            }
+        }
+
     }
 
     @Override
