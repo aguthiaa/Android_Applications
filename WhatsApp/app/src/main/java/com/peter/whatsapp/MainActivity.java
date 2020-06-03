@@ -115,10 +115,12 @@ import com.google.firebase.database.ValueEventListener;
 
         if (item.getItemId() == R.id.main_find_people)
         {
-            Toast.makeText(this, "Find People", Toast.LENGTH_SHORT).show();
+            sendUserToFindFriendsActivity();
         }
         return true;
     }
+
+
 
     private void requestNewGroupCreation()
     {
@@ -236,5 +238,11 @@ import com.google.firebase.database.ValueEventListener;
         Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(loginIntent);
         finish();
+    }
+
+    private void sendUserToFindFriendsActivity()
+    {
+        Intent findFriendsIntent = new Intent(MainActivity.this, FindFriendsActivity.class);
+        startActivity(findFriendsIntent);
     }
 }

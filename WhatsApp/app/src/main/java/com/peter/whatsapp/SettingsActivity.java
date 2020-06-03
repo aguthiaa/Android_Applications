@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -51,6 +52,7 @@ public class SettingsActivity extends AppCompatActivity
     private String currentUserID;
 
     private Uri imageUri;
+    private String downloadURI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -220,49 +222,7 @@ public class SettingsActivity extends AppCompatActivity
                 Uri resultUri = result.getUri();
                 userProfileImage.setImageURI(resultUri);
 
-                final StorageReference filePath = profileImageRef.child(currentUserID +".jpg");
-                filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>()
-                        {
-                            @Override
-                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task)
-                            {
-                                if (task.isSuccessful())
-                                {
-                                    Toast.makeText(SettingsActivity.this, "Profile Image Uploaded To firebase Storage", Toast.LENGTH_SHORT).show();
-
-                                     String downloadurl = filePath.getDownloadUrl().toString();
-                                    rootRef.child("Users").child(currentUserID).child("image").setValue(downloadurl)
-                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task)
-                                                {
-                                                    if (task.isSuccessful())
-                                                    {
-                                                        Toast.makeText(SettingsActivity.this, "Profile Image saved to firebase database", Toast.LENGTH_SHORT).show();
-                                                        sendUserToMainActivity();
-                                                    }
-
-                                                }
-                                            }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e)
-                                        {
-                                            String error = e.getMessage();
-                                            Toast.makeText(SettingsActivity.this, error, Toast.LENGTH_LONG).show();
-
-                                        }
-                                    });
-                                }
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e)
-                    {
-                        String error = e.getMessage();
-                        Toast.makeText(SettingsActivity.this, error, Toast.LENGTH_LONG).show();
-
-                    }
-                });
+                uploadProfileImage(resultUri);
             }
             else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE)
             {
@@ -270,6 +230,93 @@ public class SettingsActivity extends AppCompatActivity
             }
         }
 
+    }
+
+    private void uploadProfileImage(Uri resultUri)
+    {
+        mDialog.setTitle("Updating profile image");
+        mDialog.setMessage("Please wait...");
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.show();
+        final StorageReference filePath = profileImageRef.child(currentUserID +".jpg");
+       UploadTask uploadTask = filePath.putFile(resultUri);
+       uploadTask.addOnFailureListener(new OnFailureListener()
+       {
+           @Override
+           public void onFailure(@NonNull Exception e) {
+
+               String error = e.getMessage();
+               Toast.makeText(SettingsActivity.this, error, Toast.LENGTH_LONG).show();
+               mDialog.dismiss();
+           }
+       }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
+       {
+           @Override
+           public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
+           {
+               Toast.makeText(SettingsActivity.this, "Profile image uploaded successfully to firebase storage", Toast.LENGTH_SHORT).show();
+               mDialog.dismiss();
+           }
+       });
+
+       Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>()
+       {
+           @Override
+           public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception
+           {
+               if (!task.isSuccessful())
+               {
+                   throw task.getException();
+               }
+               return filePath.getDownloadUrl();
+           }
+       }).addOnCompleteListener(new OnCompleteListener<Uri>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task)
+            {
+                if (task.isSuccessful())
+                {
+                    downloadURI = task.getResult().toString();
+
+                    rootRef.child("Users").child(currentUserID).child("image").setValue(downloadURI)
+                            .addOnCompleteListener(new OnCompleteListener<Void>()
+                            {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task)
+                                {
+                                    if (task.isSuccessful())
+                                    {
+                                        Toast.makeText(SettingsActivity.this, "profile image saved to firebase database", Toast.LENGTH_SHORT).show();
+                                        sendUserToMainActivity();
+                                        mDialog.dismiss();
+                                    }
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener()
+                    {
+                        @Override
+                        public void onFailure(@NonNull Exception e)
+                        {
+                            String error = e.getMessage();
+                            Toast.makeText(SettingsActivity.this, error, Toast.LENGTH_LONG).show();
+                            mDialog.dismiss();
+
+                        }
+                    });
+                }
+
+            }
+        }).addOnFailureListener(new OnFailureListener()
+        {
+            @Override
+            public void onFailure(@NonNull Exception e)
+            {
+                String error = e.getMessage();
+                Toast.makeText(SettingsActivity.this, error, Toast.LENGTH_LONG).show();
+                mDialog.dismiss();
+            }
+        });
     }
 
     @Override
