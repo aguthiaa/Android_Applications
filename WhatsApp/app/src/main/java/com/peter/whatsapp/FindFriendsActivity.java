@@ -98,8 +98,6 @@ public class FindFriendsActivity extends AppCompatActivity
                                 Intent profileIntent = new Intent(FindFriendsActivity.this, ProfileActivity.class);
                                 profileIntent.putExtra("UserID", userID);
                                 profileIntent.putExtra("name", model.getName());
-                                profileIntent.putExtra("status", model.getStatus());
-                                profileIntent.putExtra("image", model.getImage());
                                 startActivity(profileIntent);
                             }
                         });
