@@ -3,6 +3,7 @@ package com.peter.whatsapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -45,6 +46,7 @@ public class SettingsActivity extends AppCompatActivity
     private static final int GalleryPick = 1;
 
     private ProgressDialog mDialog;
+    private Toolbar mToolbar;
 
     private FirebaseAuth mAuth;
     private DatabaseReference rootRef;
@@ -59,6 +61,12 @@ public class SettingsActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        mToolbar = findViewById(R.id.settings_app_bar_layout);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Settings");
 
         profileImageRef = FirebaseStorage.getInstance().getReference().child("Profile Images");
         mAuth = FirebaseAuth.getInstance();
@@ -167,12 +175,12 @@ public class SettingsActivity extends AppCompatActivity
 //            }
 //        })
 
-        HashMap<String, String> userMap = new HashMap<>();
+        HashMap<String, Object> userMap = new HashMap<>();
         userMap.put("uid", currentUserID);
         userMap.put("name", username);
         userMap.put("status", status);
 
-        rootRef.child("Users").child(currentUserID).setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>()
+        rootRef.child("Users").child(currentUserID).updateChildren(userMap).addOnCompleteListener(new OnCompleteListener<Void>()
         {
             @Override
             public void onComplete(@NonNull Task<Void> task)

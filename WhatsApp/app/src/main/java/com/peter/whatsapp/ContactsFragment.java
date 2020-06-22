@@ -1,6 +1,7 @@
 package com.peter.whatsapp;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -98,7 +99,8 @@ public class ContactsFragment extends Fragment
                     @Override
                     protected void onBindViewHolder(@NonNull final ContactsViewHolder holder, int position, @NonNull final Friends model)
                     {
-                        String usersIDs = getRef(position).getKey();
+                        final String usersIDs = getRef(position).getKey();
+
 
                         usersRef.child(usersIDs).addValueEventListener(new ValueEventListener()
                         {
@@ -109,20 +111,47 @@ public class ContactsFragment extends Fragment
                                 {
 
                                     String profileImage =dataSnapshot.child("image").getValue().toString();
-                                    String username = dataSnapshot.child("name").getValue().toString();
+                                    final String username = dataSnapshot.child("name").getValue().toString();
                                     String status = dataSnapshot.child("status").getValue().toString();
 
                                     Picasso.get().load(profileImage).placeholder(R.drawable.profile_image).into(holder.userProfileImage);
                                     holder.userName.setText(username);
                                     holder.userStatus.setText(status);
+
+
+                                    holder.itemView.setOnClickListener(new View.OnClickListener()
+                                    {
+                                        @Override
+                                        public void onClick(View view)
+                                        {
+                                            Intent chatIntent = new Intent(getContext(), ChatActivity.class);
+                                            chatIntent.putExtra("UserID", usersIDs);
+                                            chatIntent.putExtra("UserName", username);
+                                            startActivity(chatIntent);
+
+                                        }
+                                    });
                                 }
                                 else
                                 {
-                                    String username = dataSnapshot.child("name").getValue().toString();
+                                    final String username = dataSnapshot.child("name").getValue().toString();
                                     String status = dataSnapshot.child("status").getValue().toString();
 
                                     holder.userName.setText(username);
                                     holder.userStatus.setText(status);
+
+                                    holder.itemView.setOnClickListener(new View.OnClickListener()
+                                    {
+                                        @Override
+                                        public void onClick(View view)
+                                        {
+                                            Intent chatIntent = new Intent(getContext(), ChatActivity.class);
+                                            chatIntent.putExtra("UserID", usersIDs);
+                                            chatIntent.putExtra("UserName", username);
+                                            startActivity(chatIntent);
+
+                                        }
+                                    });
                                 }
                             }
 
