@@ -100,6 +100,7 @@ public class ContactsFragment extends Fragment
                     protected void onBindViewHolder(@NonNull final ContactsViewHolder holder, int position, @NonNull final Friends model)
                     {
                         final String usersIDs = getRef(position).getKey();
+                        final String[] profileImage = {"default_image"};
 
 
                         usersRef.child(usersIDs).addValueEventListener(new ValueEventListener()
@@ -110,30 +111,11 @@ public class ContactsFragment extends Fragment
                                 if (dataSnapshot.hasChild("image"))
                                 {
 
-                                    String profileImage =dataSnapshot.child("image").getValue().toString();
-                                    final String username = dataSnapshot.child("name").getValue().toString();
-                                    String status = dataSnapshot.child("status").getValue().toString();
+                                    profileImage[0] =dataSnapshot.child("image").getValue().toString();
 
-                                    Picasso.get().load(profileImage).placeholder(R.drawable.profile_image).into(holder.userProfileImage);
-                                    holder.userName.setText(username);
-                                    holder.userStatus.setText(status);
+                                    Picasso.get().load(profileImage[0]).placeholder(R.drawable.profile_image).into(holder.userProfileImage);
 
-
-                                    holder.itemView.setOnClickListener(new View.OnClickListener()
-                                    {
-                                        @Override
-                                        public void onClick(View view)
-                                        {
-                                            Intent chatIntent = new Intent(getContext(), ChatActivity.class);
-                                            chatIntent.putExtra("UserID", usersIDs);
-                                            chatIntent.putExtra("UserName", username);
-                                            startActivity(chatIntent);
-
-                                        }
-                                    });
                                 }
-                                else
-                                {
                                     final String username = dataSnapshot.child("name").getValue().toString();
                                     String status = dataSnapshot.child("status").getValue().toString();
 
@@ -148,11 +130,11 @@ public class ContactsFragment extends Fragment
                                             Intent chatIntent = new Intent(getContext(), ChatActivity.class);
                                             chatIntent.putExtra("UserID", usersIDs);
                                             chatIntent.putExtra("UserName", username);
+                                            chatIntent.putExtra("ProfileImage", profileImage[0]);
                                             startActivity(chatIntent);
 
                                         }
                                     });
-                                }
                             }
 
                             @Override

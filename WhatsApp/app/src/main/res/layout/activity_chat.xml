@@ -11,11 +11,12 @@
         android:id="@+id/chat_toolbar"
         layout="@layout/app_bar_layout"/>
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chat_message_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/chat_toolbar"/>
+        android:layout_below="@id/chat_toolbar" />
 
    <LinearLayout
        android:layout_width="match_parent"
