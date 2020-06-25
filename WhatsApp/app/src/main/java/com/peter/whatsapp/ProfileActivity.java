@@ -168,7 +168,7 @@ public class ProfileActivity extends AppCompatActivity
                                             {
                                                 currentState = "new";
                                                 sendMessageBtn.setEnabled(true);
-                                                sendMessageBtn.setText("Send Message");
+                                                sendMessageBtn.setText("Send Messages");
 
                                             }
                                         }
@@ -427,7 +427,7 @@ public class ProfileActivity extends AppCompatActivity
                                         {
                                             if (task.isSuccessful())
                                             {
-                                                sendMessageBtn.setText("Send Message Request");
+                                                sendMessageBtn.setText("Send Messages Request");
                                                 currentState = "new";
                                                 sendMessageBtn.setEnabled(true);
                                             }

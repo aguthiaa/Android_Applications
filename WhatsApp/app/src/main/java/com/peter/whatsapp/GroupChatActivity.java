@@ -97,7 +97,7 @@ public class GroupChatActivity extends AppCompatActivity
         }
         else
         {
-            userMessage.setError("Message is required");
+            userMessage.setError("Messages is required");
             userMessage.requestFocus();
         }
     }
