@@ -19,6 +19,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class RegisterActivity extends AppCompatActivity
 {
@@ -140,8 +141,13 @@ public class RegisterActivity extends AppCompatActivity
                         if (task.isSuccessful())
                         {
                             String currentOnlineUser = mAuth.getCurrentUser().getUid();
+                            String deviceToken = FirebaseInstanceId.getInstance().getToken();
+
 
                             usersRef.child("Users").child(currentOnlineUser).setValue("");
+
+                            usersRef.child("Users").child(currentOnlineUser).child("device_token")
+                                    .setValue(deviceToken);
                             mDialog.dismiss();
                             sendUserToMainActivity();
                             Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();

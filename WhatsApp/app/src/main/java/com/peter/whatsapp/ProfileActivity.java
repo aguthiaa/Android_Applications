@@ -21,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity
@@ -31,7 +33,7 @@ public class ProfileActivity extends AppCompatActivity
     private Button sendMessageBtn, cancelMessageReqBtn;
 
     private FirebaseAuth mAuth;
-    private DatabaseReference usersRef, chatRequestRef, contactsRef;
+    private DatabaseReference usersRef, chatRequestRef, contactsRef, notificationsRef;
     private String senderUserID, receiverUserID, name, currentState;
 
     @Override
@@ -48,6 +50,7 @@ public class ProfileActivity extends AppCompatActivity
         usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         chatRequestRef = FirebaseDatabase.getInstance().getReference().child("Chat Requests");
         contactsRef = FirebaseDatabase.getInstance().getReference().child("Contacts");
+        notificationsRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
 
         mToolbar = findViewById(R.id.profile_appbar);
         setSupportActionBar(mToolbar);
@@ -214,11 +217,39 @@ public class ProfileActivity extends AppCompatActivity
                                         {
                                             if (task.isSuccessful())
                                             {
-                                                 sendMessageBtn.setEnabled(true);
 
-                                                 currentState = "request_sent";
-                                                 sendMessageBtn.setText("Cancel Chat Request");
-                                                 sendMessageBtn.setEnabled(true);
+                                                HashMap<String, String> chatNotifications = new HashMap<>();
+                                                chatNotifications.put("from", senderUserID);
+                                                chatNotifications.put("type", "request");
+
+                                                notificationsRef.child(receiverUserID).push()
+                                                        .setValue(chatNotifications)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>()
+                                                        {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task)
+                                                            {
+                                                                if (task.isSuccessful())
+                                                                {
+                                                                    sendMessageBtn.setEnabled(true);
+
+                                                                    currentState = "request_sent";
+                                                                    sendMessageBtn.setText("Cancel Chat Request");
+                                                                }
+
+                                                            }
+                                                        }).addOnFailureListener(new OnFailureListener()
+                                                {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e)
+                                                    {
+
+                                                        String error = e.getMessage();
+                                                        Toast.makeText(ProfileActivity.this, error, Toast.LENGTH_LONG).show();
+                                                    }
+                                                });
+
+
                                             }
                                         }
                                     }).addOnFailureListener(new OnFailureListener()

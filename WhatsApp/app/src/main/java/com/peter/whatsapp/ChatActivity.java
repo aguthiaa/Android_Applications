@@ -196,6 +196,8 @@ public class ChatActivity extends AppCompatActivity
                         messageList.add(messages);
 
                         messagesAdapter.notifyDataSetChanged();
+
+                        chatMessagesList.smoothScrollToPosition(chatMessagesList.getAdapter().getItemCount());
                     }
 
                     @Override

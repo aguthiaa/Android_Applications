@@ -107,17 +107,18 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
         {
             holder.recieverMessage.setVisibility(View.INVISIBLE);
             holder.recieverProfileImage.setVisibility(View.INVISIBLE);
+            holder.senderMessage.setVisibility(View.INVISIBLE);
 
             if (fromUserID.equals(messageSenderID))
             {
+                holder.senderMessage.setVisibility(View.VISIBLE);
+
                 holder.senderMessage.setBackgroundResource(R.drawable.sender_message_layout);
                 holder.senderMessage.setText(messages.getMessage());
             }
 
             else
             {
-                holder.senderMessage.setVisibility(View.INVISIBLE);
-
 
                 holder.recieverProfileImage.setVisibility(View.VISIBLE);
                 holder.recieverMessage.setVisibility(View.VISIBLE);

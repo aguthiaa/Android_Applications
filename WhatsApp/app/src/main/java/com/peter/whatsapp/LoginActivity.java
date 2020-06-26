@@ -18,10 +18,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class LoginActivity extends AppCompatActivity
 {
     private FirebaseAuth mAuth;
+    private DatabaseReference usersRef;
 
     private EditText loginEmail, loginPassword;
     private TextView forgotPassword, registerHere;
@@ -37,6 +41,7 @@ public class LoginActivity extends AppCompatActivity
 
 
         mAuth = FirebaseAuth.getInstance();
+        usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         initializeViews();
     }
@@ -136,9 +141,37 @@ public class LoginActivity extends AppCompatActivity
                     {
                         if (task.isSuccessful())
                         {
-                            Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                            sendUserToMainActivity();
-                            mDialog.dismiss();
+
+                            String currentUserID = mAuth.getCurrentUser().getUid();
+                            String deviceToken = FirebaseInstanceId.getInstance().getToken();
+
+                            usersRef.child(currentUserID).child("device_token")
+                                    .setValue(deviceToken)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>()
+                                    {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task)
+                                        {
+                                            if (task.isSuccessful())
+                                            {
+                                                Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                                                sendUserToMainActivity();
+                                                mDialog.dismiss();
+                                            }
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener()
+                            {
+                                @Override
+                                public void onFailure(@NonNull Exception e)
+                                {
+
+                                    String error = e.getMessage();
+                                    Toast.makeText(LoginActivity.this, error, Toast.LENGTH_LONG).show();
+                                }
+                            });
+
+
 
                         }
 
