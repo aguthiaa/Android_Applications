@@ -27,6 +27,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.peter.whatsapp.model.Messages;
 import com.squareup.picasso.Picasso;
 
@@ -178,6 +179,42 @@ public class ChatActivity extends AppCompatActivity
         });
 
 
+
+    }
+
+    private void displayUserLastSeen()
+    {
+        rootRef.child("Users").child(receiverUserID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+                if (dataSnapshot.child("User State").hasChild("state"))
+                {
+                    String stateType = dataSnapshot.child("User State").child("state").getValue().toString();
+                    String date = dataSnapshot.child("User State").child("date").getValue().toString();
+                    String time = dataSnapshot.child("User State").child("time").getValue().toString();
+
+                    if (stateType.equals("online"))
+                    {
+                        rLastSeen.setText("online");
+                    }
+                    else if (stateType.equals("offline"))
+                    {
+                        rLastSeen.setText("Last Seen "+ date+" "+time);
+                    }
+                }
+                else
+                {
+                    rLastSeen.setText("offline");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError)
+            {
+
+            }
+        });
     }
 
 
@@ -185,6 +222,8 @@ public class ChatActivity extends AppCompatActivity
     protected void onStart()
     {
         super.onStart();
+
+        displayUserLastSeen();
 
         rootRef.child("Messages").child(messageSenderID).child(receiverUserID)
                 .addChildEventListener(new ChildEventListener()

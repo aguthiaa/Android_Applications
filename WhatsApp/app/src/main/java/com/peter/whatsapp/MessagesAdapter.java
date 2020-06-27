@@ -3,6 +3,7 @@ package com.peter.whatsapp;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,6 +40,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
     {
         CircleImageView recieverProfileImage;
         TextView recieverMessage, senderMessage;
+        ImageView senderImageView, receiverImageView;
 
         public MessageViewHolder(@NonNull View itemView)
         {
@@ -47,6 +49,8 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
             recieverProfileImage = itemView.findViewById(R.id.receiver_profile_image);
             recieverMessage = itemView.findViewById(R.id.receiver_text_message);
             senderMessage = itemView.findViewById(R.id.sender_message_text);
+            senderImageView = itemView.findViewById(R.id.message_sender_image_view);
+            receiverImageView = itemView.findViewById(R.id.message_receiver_image_view);
         }
     }
 
@@ -103,11 +107,17 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
         });
 
 
+
+        holder.recieverMessage.setVisibility(View.GONE);
+        holder.recieverProfileImage.setVisibility(View.GONE);
+        holder.senderMessage.setVisibility(View.GONE);
+        holder.senderImageView.setVisibility(View.GONE);
+        holder.receiverImageView.setVisibility(View.GONE);
+
+
+
         if (fromMessageType.equals("text"))
         {
-            holder.recieverMessage.setVisibility(View.INVISIBLE);
-            holder.recieverProfileImage.setVisibility(View.INVISIBLE);
-            holder.senderMessage.setVisibility(View.INVISIBLE);
 
             if (fromUserID.equals(messageSenderID))
             {

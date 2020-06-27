@@ -117,12 +117,43 @@ public class ChatsFragment extends Fragment
 
 
                                 }
-                                    final String uName = dataSnapshot.child("name").getValue().toString();
-                                    String uStatus = dataSnapshot.child("status").getValue().toString();
+
+                                final String uName = dataSnapshot.child("name").getValue().toString();
+                                String uStatus = dataSnapshot.child("status").getValue().toString();
 
 
-                                    holder.userName.setText(uName);
-                                    holder.userStatus.setText("Last Seen: "+"\n"+"Date: "+" Time:");
+                                holder.userName.setText(uName);
+
+
+                                if (dataSnapshot.child("User State").hasChild("state"))
+                                {
+                                    String stateType = dataSnapshot.child("User State").child("state").getValue().toString();
+                                    String date = dataSnapshot.child("User State").child("date").getValue().toString();
+                                    String time = dataSnapshot.child("User State").child("time").getValue().toString();
+
+                                    if (stateType.equals("online"))
+                                    {
+                                        holder.userStatus.setText("online");
+
+                                        ImageView onlineStatusBtn = holder.itemView.findViewById(R.id.user_online_status);
+                                        onlineStatusBtn.setVisibility(View.VISIBLE);
+
+                                    }
+                                    else if (stateType.equals("offline"))
+                                    {
+                                        ImageView onlineStatusBtn = holder.itemView.findViewById(R.id.user_online_status);
+                                        onlineStatusBtn.setVisibility(View.INVISIBLE);
+
+
+                                        holder.userStatus.setText("Last Seen: "+" "+ date+" " +time);
+                                    }
+
+
+                                }
+                                else
+                                {
+                                    holder.userStatus.setText("offline");
+                                }
 
                                     holder.itemView.setOnClickListener(new View.OnClickListener()
                                     {

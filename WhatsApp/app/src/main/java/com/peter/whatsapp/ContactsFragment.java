@@ -120,7 +120,33 @@ public class ContactsFragment extends Fragment
                                     String status = dataSnapshot.child("status").getValue().toString();
 
                                     holder.userName.setText(username);
-                                    holder.userStatus.setText(status);
+
+
+                                    if (dataSnapshot.child("User State").hasChild("state"))
+                                    {
+                                        String stateType = dataSnapshot.child("User State").child("state").getValue().toString();
+                                        String date = dataSnapshot.child("User State").child("date").getValue().toString();
+                                        String time = dataSnapshot.child("User State").child("time").getValue().toString();
+
+                                        if (stateType.equals("online"))
+                                        {
+                                            holder.userStatus.setText(status);
+                                            ImageView onlineStatusImgBtn = holder.itemView.findViewById(R.id.user_online_status);
+                                            onlineStatusImgBtn.setVisibility(View.VISIBLE);
+
+                                        }
+                                        else if (stateType.equals("offline"))
+                                        {
+
+                                            holder.userStatus.setText(status);
+                                            ImageView onlineStatusImgBtn = holder.itemView.findViewById(R.id.user_online_status);
+                                            onlineStatusImgBtn.setVisibility(View.INVISIBLE);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        holder.userStatus.setText(status);
+                                    }
 
                                     holder.itemView.setOnClickListener(new View.OnClickListener()
                                     {

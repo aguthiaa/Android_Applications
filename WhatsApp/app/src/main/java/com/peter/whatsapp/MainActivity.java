@@ -26,6 +26,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+
  public class MainActivity extends AppCompatActivity
 {
     private Toolbar mainToolBar;
@@ -36,6 +40,7 @@ import com.google.firebase.database.ValueEventListener;
     private FirebaseAuth mAuth;
     private FirebaseUser onlineUser;
     private DatabaseReference rootRef;
+    private String saveCurrentDate, saveCurrentTime, currentOnlineUserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -59,6 +64,7 @@ import com.google.firebase.database.ValueEventListener;
 
 
         mAuth = FirebaseAuth.getInstance();
+        currentOnlineUserID = mAuth.getCurrentUser().getUid();
         onlineUser = mAuth.getCurrentUser();
         rootRef = FirebaseDatabase.getInstance().getReference();
 
@@ -77,11 +83,33 @@ import com.google.firebase.database.ValueEventListener;
         }
         else
         {
+            updateUserStatus("online");
             verifyUserInformation();
         }
     }
 
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
 
+        if (onlineUser !=null)
+        {
+            updateUserStatus("offline");
+        }
+    }
+
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+
+        if (onlineUser != null)
+        {
+            updateUserStatus("offline");
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -224,6 +252,28 @@ import com.google.firebase.database.ValueEventListener;
         });
     }
 
+    private void updateUserStatus(String state)
+    {
+        Calendar calendar = Calendar.getInstance();
+
+        SimpleDateFormat currentDate = new SimpleDateFormat("MMM-dd-yyyy");
+
+        saveCurrentDate = currentDate.format(calendar.getTime());
+
+        SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a");
+
+        saveCurrentTime = currentTime.format(calendar.getTime());
+
+        HashMap<String, Object> onlineStateMap = new HashMap<>();
+        onlineStateMap.put("date", saveCurrentDate);
+        onlineStateMap.put("time", saveCurrentTime);
+        onlineStateMap.put("state", state);
+
+        rootRef.child("Users").child(currentOnlineUserID).child("User State").updateChildren(onlineStateMap);
+
+
+
+    }
 
     private void sendUserToSettingsActivity()
     {

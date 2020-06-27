@@ -24,6 +24,21 @@
         android:padding="8dp"
         android:textSize="16dp"/>
 
+    <ImageView
+        android:id="@+id/message_sender_image_view"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentEnd="true"
+        android:scaleType="centerCrop"
+        android:layout_margin="5dp"/>
+    <ImageView
+        android:id="@+id/message_receiver_image_view"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentStart="true"
+        android:scaleType="centerCrop"
+        android:layout_margin="5dp"/>
+
     <TextView
         android:id="@+id/sender_message_text"
         android:layout_width="wrap_content"

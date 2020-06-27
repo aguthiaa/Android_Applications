@@ -1,6 +1,8 @@
 package com.peter.whatsapp;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -142,6 +144,105 @@ public class RequestsFragment extends Fragment
                                                     holder.username.setText(uName);
                                                     holder.userStatus.setText(uStatus);
                                                 }
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError)
+                                            {
+
+                                            }
+                                        });
+                                    }
+
+                                    else if (type.equals("sent"))
+                                    {
+                                        Button request_sent_btn = holder.itemView.findViewById(R.id.accept_chat_request);
+                                        request_sent_btn.setVisibility(View.INVISIBLE);
+
+                                        Button cancel_request_btn = holder.itemView.findViewById(R.id.cancel_chat_request);
+                                        cancel_request_btn.setVisibility(View.INVISIBLE);
+
+
+
+                                        usersRef.child(userRequestIDs).addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                                            {
+                                                if (dataSnapshot.hasChild("image"))
+                                                {
+                                                    String uImage = dataSnapshot.child("image").getValue().toString();
+
+
+                                                    Picasso.get().load(uImage).placeholder(R.drawable.profile_image).into(holder.profileImage);
+
+                                                }
+
+                                                    final String uName = dataSnapshot.child("name").getValue().toString();
+                                                    String uStatus = dataSnapshot.child("status").getValue().toString();
+
+                                                    holder.username.setText(uName);
+                                                    holder.userStatus.setText("Request sent to "+uName);
+
+                                                    holder.itemView.setOnClickListener(new View.OnClickListener()
+                                                    {
+                                                        @Override
+                                                        public void onClick(View view)
+                                                        {
+                                                            CharSequence options [] = new CharSequence[]
+                                                                    {
+                                                                            "Cancel Request"
+                                                                    };
+
+
+                                                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                                            builder.setTitle("Cancel "+ uName+ " Chat Request");
+
+                                                            builder.setItems(options, new DialogInterface.OnClickListener()
+                                                            {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialogInterface, int i)
+                                                                {
+                                                                    if (i == 0)
+                                                                    {
+                                                                        chatRequestsRef.child(currentUserID).child(userRequestIDs).removeValue()
+                                                                                .addOnCompleteListener(new OnCompleteListener<Void>()
+                                                                                {
+                                                                                    @Override
+                                                                                    public void onComplete(@NonNull Task<Void> task)
+                                                                                    {
+                                                                                        if (task.isSuccessful())
+                                                                                        {
+                                                                                            chatRequestsRef.child(userRequestIDs).child(currentUserID).removeValue()
+                                                                                                    .addOnCompleteListener(new OnCompleteListener<Void>()
+                                                                                                    {
+                                                                                                        @Override
+                                                                                                        public void onComplete(@NonNull Task<Void> task)
+                                                                                                        {
+
+                                                                                                            if (task.isSuccessful())
+                                                                                                            {
+                                                                                                                Toast.makeText(getContext(), "Chat Request Rejected successfully", Toast.LENGTH_SHORT).show();
+                                                                                                            }
+                                                                                                        }
+                                                                                                    });
+                                                                                        }
+                                                                                    }
+                                                                                });
+
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        dialogInterface.cancel();
+                                                                    }
+                                                                }
+                                                            });
+
+                                                            builder.show();
+
+
+                                                        }
+                                                    });
 
                                             }
 
