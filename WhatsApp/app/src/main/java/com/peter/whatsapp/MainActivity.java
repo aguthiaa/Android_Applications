@@ -127,6 +127,7 @@ import java.util.HashMap;
 
         if (item.getItemId() == R.id.main_logout)
         {
+            updateUserStatus("offline");
             mAuth.signOut();
             sendUserToLoginActivity();
 

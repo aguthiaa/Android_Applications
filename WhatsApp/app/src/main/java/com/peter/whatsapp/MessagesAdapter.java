@@ -1,5 +1,7 @@
 package com.peter.whatsapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +73,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
 
 
     @Override
-    public void onBindViewHolder(@NonNull final MessageViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull final MessageViewHolder holder, final int position)
     {
 
         messageSenderID = mAuth.getCurrentUser().getUid();
@@ -124,7 +126,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
                 holder.senderMessage.setVisibility(View.VISIBLE);
 
                 holder.senderMessage.setBackgroundResource(R.drawable.sender_message_layout);
-                holder.senderMessage.setText(messages.getMessage());
+                holder.senderMessage.setText(messages.getMessage()+"\n\n"+messages.getTime()+"-"+messages.getDate());
             }
 
             else
@@ -134,9 +136,69 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
                 holder.recieverMessage.setVisibility(View.VISIBLE);
 
                 holder.recieverMessage.setBackgroundResource(R.drawable.receiver_message_layout);
-                holder.recieverMessage.setText(messages.getMessage());
+                holder.recieverMessage.setText(messages.getMessage()+"\n\n"+messages.getTime()+" "+messages.getDate());
             }
         }
+
+        else if (fromMessageType.equals("image"))
+        {
+            if (fromUserID.equals(messageSenderID))
+            {
+                holder.senderImageView.setVisibility(View.VISIBLE);
+                Picasso.get().load(messages.getMessage()).placeholder(R.drawable.fail).into(holder.senderImageView);
+            }
+
+            else
+            {
+                holder.recieverProfileImage.setVisibility(View.VISIBLE);
+                holder.receiverImageView.setVisibility(View.VISIBLE);
+                Picasso.get().load(messages.getMessage()).placeholder(R.drawable.fail).into(holder.receiverImageView);
+            }
+        }
+
+        else if (fromMessageType.equals("pdf") || fromMessageType.equals("docx"))
+        {
+            if (fromUserID.equals(messageSenderID))
+            {
+                holder.senderImageView.setVisibility(View.VISIBLE);
+
+                Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/whatsapp-a7a3b.appspot.com/o/Image%20Files%2Ffile.png?alt=media&token=6f47cc2d-4a63-418a-b1a6-958cd56f74a1")
+                        .into(holder.senderImageView);
+
+                holder.itemView.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(userMessagesList.get(position).getMessage()));
+                        holder.itemView.getContext().startActivity(intent);
+
+                    }
+                });
+
+            }
+            else
+            {
+                holder.recieverProfileImage.setVisibility(View.VISIBLE);
+                holder.receiverImageView.setVisibility(View.VISIBLE);
+
+               Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/whatsapp-a7a3b.appspot.com/o/Image%20Files%2Ffile.png?alt=media&token=6f47cc2d-4a63-418a-b1a6-958cd56f74a1")
+                       .into(holder.receiverImageView);
+
+                holder.itemView.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(userMessagesList.get(position).getMessage()));
+                        holder.itemView.getContext().startActivity(intent);
+
+                    }
+                });
+            }
+        }
+
+
 
     }
 
